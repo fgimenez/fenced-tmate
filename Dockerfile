@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 
 MAINTAINER Federico Gimenez <fgimenez@canonical.com>
 
-# Install packages: wget, git, mercurial and emacs
+# Install packages
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:nviennot/tmate
 RUN apt-get update && \
