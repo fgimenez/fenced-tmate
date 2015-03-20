@@ -1,0 +1,42 @@
+#!/bin/bash
+
+DOCKER_IMAGE='fgimenez/fenced-tmate'
+CONTAINER_USERNAME='dummy'
+CONTAINER_GROUPNAME='dummy'
+HOMEDIR='/home/'$CONTAINER_USERNAME
+GROUP_ID=$(id -g)
+USER_ID=$(id -u)
+
+create_user(){
+  echo \
+    groupadd -f -g $GROUP_ID $CONTAINER_GROUPNAME '&&' \
+    useradd -u $USER_ID -g $CONTAINER_GROUPNAME $CONTAINER_USERNAME '&&' \
+    mkdir -p $HOMEDIR '&&' \
+    chown -R $CONTAINER_USERNAME:$CONTAINER_GROUPNAME $HOMEDIR
+}
+
+generate_keypair(){
+  echo \
+    mkdir -p $HOMEDIR/.ssh '&&' \
+    rm -rf $HOMEDIR/.ssh/id_rsa* '&&' \
+    ssh-keygen -q -t rsa -N \"\" -f $HOMEDIR/.ssh/id_rsa '&&' \
+    chown $CONTAINER_USERNAME:$CONTAINER_GROUPNAME $HOMEDIR/.ssh/id_rsa*
+}
+
+execute_as_user(){
+  echo \
+    sudo -u $CONTAINER_USERNAME HOME=$HOMEDIR
+}
+
+create_cmd()
+{
+  echo "'mkdir -p /workspace && $(create_user) && $(generate_keypair) && $(execute_as_user) /usr/bin/tmate'"
+}
+
+
+eval sudo docker run \
+    -v $1:/workspace \
+    -w /workspace \
+    -i -t \
+    $DOCKER_IMAGE \
+    /bin/bash -ci $(create_cmd)
