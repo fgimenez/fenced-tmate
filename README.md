@@ -2,6 +2,6 @@ This simple container allows you to run tmate [1] in a safe environment. You can
 
 If your source files reside at `/path/to/shareable/dir` then you can spin up the container with:
 
-    docker run -v /path/to/shareable/dir:/workspace -i -t fgimenez/fenced-tmate
+    ./share.sh /path/to/shareable/dir
 
 [1] http://tmate.io/
