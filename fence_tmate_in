@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 DOCKER_IMAGE='fgimenez/fenced-tmate'
 CONTAINER_USERNAME='dummy'
@@ -6,11 +7,15 @@ CONTAINER_GROUPNAME='dummy'
 HOMEDIR='/home/'$CONTAINER_USERNAME
 GROUP_ID=$(id -g)
 USER_ID=$(id -u)
+TARGET_DIR=$1
+if [ -z "${TARGET_DIR}" ]; then
+    TARGET_DIR=$(pwd)
+fi
 
 create_user(){
   echo \
     groupadd -f -g $GROUP_ID $CONTAINER_GROUPNAME '&&' \
-    useradd -u $USER_ID -g $CONTAINER_GROUPNAME $CONTAINER_USERNAME '&&' \
+    useradd -s /bin/bash -u $USER_ID -g $CONTAINER_GROUPNAME $CONTAINER_USERNAME '&&' \
     mkdir -p $HOMEDIR '&&' \
     chown -R $CONTAINER_USERNAME:$CONTAINER_GROUPNAME $HOMEDIR
 }
@@ -35,7 +40,7 @@ create_cmd()
 
 
 eval sudo docker run \
-    -v $1:/workspace \
+    -v $TARGET_DIR:/workspace \
     -w /workspace \
     -i -t \
     $DOCKER_IMAGE \
