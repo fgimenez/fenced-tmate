@@ -2,6 +2,11 @@ This simple container allows you to run tmate [1] in a safe environment. You can
 
 Moreover, using the `fence_tmate_in` script a user is created in the container with the same uid and gid as the invoking user, so that the ownership of the files created is properly set and even the container is safe during the tmate session, you and your peers can only modify the shared directory.
 
+It requires docker installed and started, for ubuntu the following will do:
+
+    $ sudo apt-get install docker.io
+    $ sudo service docker start
+
 With your source files at `/path/to/shareable/dir` you can spin up the container from the root of this project (or from anywhere else if you put the `fence_tmate_in` script in the PATH) with:
 
     $ ./fence_tmate_in /path/to/shareable/dir
@@ -9,5 +14,7 @@ With your source files at `/path/to/shareable/dir` you can spin up the container
 To share the current directory just:
 
     $ ./fence_tmate_in
+
+
 
 [1] http://tmate.io/

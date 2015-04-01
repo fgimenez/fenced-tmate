@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -xe
 
 DOCKER_IMAGE='fgimenez/fenced-tmate'
 CONTAINER_USERNAME='dummy'
