@@ -15,6 +15,15 @@ To share the current directory just:
 
     $ ./fence_tmate_in
 
+While the tmate session is active you can access as root to install additional packages, for instance, first get the container name:
 
+    $ sudo docker ps
+
+    CONTAINER ID    IMAGE                          COMMAND               CREATED         STATUS          PORTS   NAMES
+    9d7d157f25be    fgimenez/fenced-tmate:latest   "\"/bin/bash -ci 'ap  19 seconds ago  Up 18 seconds           grave_pasteur
+
+In this case the name is `grave_pasteur`, then access it with:
+
+    $ sudo docker exec -it grave_pasteur bash
 
 [1] http://tmate.io/
