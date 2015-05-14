@@ -35,7 +35,7 @@ execute_as_user(){
 
 create_cmd()
 {
-  echo "'apt-get install -qq sudo && mkdir -p /workspace && $(create_user) && $(generate_keypair) && $(execute_as_user) /usr/bin/tmate'"
+  echo "'mkdir -p /workspace && $(create_user) && $(generate_keypair) && $(execute_as_user) /usr/bin/tmate'"
 }
 
 
